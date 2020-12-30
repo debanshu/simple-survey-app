@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MultiSelect from "./multi-select";
 import SingleSelect from "./single-select";
+import { useParams } from "react-router-dom";
 import {
   Dropdown,
   DropdownToggle,
@@ -9,6 +10,7 @@ import {
 } from "reactstrap";
 
 function CreateSurvey() {
+  const { surveyId } = useParams();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownText, setDropdownText] = useState("Select Question Type");
 
@@ -16,6 +18,9 @@ function CreateSurvey() {
 
   return (
     <>
+      <p>
+        Survey ID: <b>{surveyId}</b>
+      </p>
       <Dropdown isOpen={dropdownOpen} toggle={toggle}>
         <DropdownToggle caret>{dropdownText}</DropdownToggle>
         <DropdownMenu>
