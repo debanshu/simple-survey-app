@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { surveySlice } from "../store/surveySlice";
 import {
   Button,
   InputGroup,
@@ -8,6 +11,9 @@ import {
 } from "reactstrap";
 
 function SingleSelect() {
+  const { surveyId } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [options, setOptions] = useState(["", ""]);
   const [question, setQuestion] = useState("");
 
@@ -19,6 +25,28 @@ function SingleSelect() {
   const isQuestionAddPublishDisabled = () =>
     question.trim() === "" ||
     options.find((opt) => opt.trim() === "") !== undefined;
+
+  const addQuestionClickAction = () => {
+    const payload = {
+      options,
+      question,
+      surveyId,
+      type: "single"
+    };
+    dispatch(surveySlice.actions.addQuestion(payload));
+    history.push('/create/' + surveyId + '?clear=true');
+  }
+
+  const publishQuestion = () => {
+    const payload = {
+      options,
+      question,
+      surveyId,
+      type: "single"
+    };
+    dispatch(surveySlice.actions.addQuestion(payload));
+    history.push('/confirm/' + surveyId);
+  }
 
   return (
     <div className="question-container">
@@ -59,12 +87,14 @@ function SingleSelect() {
         <Button
           className="survey-main-btn"
           disabled={isQuestionAddPublishDisabled()}
+          onClick={addQuestionClickAction}
         >
           Add Question
         </Button>
         <Button
           className="survey-main-btn"
           disabled={isQuestionAddPublishDisabled()}
+          onClick={publishQuestion}
         >
           Publish
         </Button>

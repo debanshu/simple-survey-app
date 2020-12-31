@@ -6,10 +6,27 @@ import {
   Input,
 } from "reactstrap";
 import { useState } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { surveySlice } from "../store/surveySlice";
 
 function MultiSelect() {
+  const { surveyId } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [options, setOptions] = useState([""]);
   const [question, setQuestion] = useState("");
+
+  const addQuestionClickAction = () => {
+    const payload = {
+      options,
+      question,
+      surveyId,
+      type: "multiple",
+    };
+    dispatch(surveySlice.actions.addQuestion(payload));
+    history.push("/create/" + surveyId + "?clear=true");
+  };
 
   const addOption = (optionIdx) => {
     if (options.length < 4) {
@@ -81,10 +98,19 @@ function MultiSelect() {
 
       {options.length === 4 ? (
         <div className="question-buttons">
-          <Button className="survey-main-btn" disabled={isQuestionAddPublishDisabled()}>
+          <Button
+            className="survey-main-btn"
+            disabled={isQuestionAddPublishDisabled()}
+            onClick={addQuestionClickAction}
+          >
             Add Question
           </Button>
-          <Button className="survey-main-btn" disabled={isQuestionAddPublishDisabled()}>Publish</Button>
+          <Button
+            className="survey-main-btn"
+            disabled={isQuestionAddPublishDisabled()}
+          >
+            Publish
+          </Button>
         </div>
       ) : null}
     </div>

@@ -3,6 +3,7 @@ import { Button } from "reactstrap";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 import CreateSurvey from "./components/create-survey";
 import TakeSurvey from "./components/take-survey";
+import ConfirmSurvey from "./components/confirm-survey";
 import { useDispatch } from "react-redux";
 import { surveySlice, createSurvey } from "./store/surveySlice";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -35,6 +36,9 @@ function App() {
       <Switch>
         <Route path="/create/:surveyId">
           <CreateSurvey />
+        </Route>
+        <Route path="/confirm/:surveyId">
+          <ConfirmSurvey />
         </Route>
         <Route path="/take">
           <TakeSurvey />

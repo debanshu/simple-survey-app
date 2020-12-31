@@ -4,7 +4,7 @@ import { Button } from "reactstrap";
 
 function TakeSurvey() {
   const surveyIDs = useSelector((globalStore) =>
-    globalStore.surveys.map((s) => s.surveyId)
+    globalStore.surveys.filter((s) => s.isPublished).map((s) => s.surveyId)
   );
 
   return (
